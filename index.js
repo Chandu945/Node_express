@@ -1,20 +1,24 @@
 const express = require('express');
 const bodyParser = require('body-parser')
+const path = require("path")
 
 const app = express();
+app.use(express.static(path.join(__dirname , "public")))
 
-const adminRoutes = require("./Routes/admin")
-const shopRoutes = require("./Routes/shop")
+const LoginRoutes = require("./Routes/Login")
+const ChatRoutes = require("./Routes/Chat")
+const contactRoutes = require("./Routes/contact")
 
 app.use(bodyParser.urlencoded({ extended: false }))
 
 app.use(bodyParser.json())
 
-app.use("/admin",adminRoutes)
-app.use("/shop",shopRoutes)
+app.use(LoginRoutes)
+app.use(ChatRoutes)
+app.use(contactRoutes)
 
 app.use((req,res,next)=>{
-    res.send("Page not found")
+res.sendFile(path.join(__dirname , "views" ,"404.html"))
 })
 
 app.listen(3000);
